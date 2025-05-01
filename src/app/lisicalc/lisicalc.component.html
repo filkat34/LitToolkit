@@ -39,6 +39,7 @@
                             <button type="button" class="btn btn-primary" id="btncoller"
                                 (click)="pasteFromClipboard()">Coller</button>
                         </div>
+                        
                         <div class="col">
                             <div class="mb-3">
                                 <input class="form-control mx-auto" type="file" id="formFile"
@@ -59,8 +60,11 @@
 
                     <div class="row">
                         <div class="col text-center">
-                            <button type="button" class="btn btn-primary btn" id="btnanalyser" (click)="analyser()"
+                            <button type="button" class="btn btn-primary me-2" id="btnanalyser" (click)="analyser()"
                                 style="width: fit-content;">Calculer</button>
+                                <button type="button" class="btn btn-danger" id="btneffacer"  style="width: fit-content;" (click)="clearText()">
+                                    Effacer
+                                </button>
                         </div>
                     </div>
                 </div>
@@ -91,8 +95,6 @@
                 </tbody>
                 </table>
             </div>
-
         </div>
     </div>
-
 </main>

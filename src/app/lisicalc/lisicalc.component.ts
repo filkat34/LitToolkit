@@ -270,6 +270,12 @@ export class LisicalcComponent {
         return;
       }
 
+      //Vérification si le texte est vide
+      if (this.nbPhrases(text) === 0) {
+        alert("Le texte n'est pas correctement ponctué et ne contient aucune phrase. Le calcul est impossible.");
+        return;
+      }
+
       //Calcul des statistiques
       this.caracters = this.nbCaracteres(text);
       this.voyelles = this.nbVoyelles(text);
@@ -340,8 +346,37 @@ export class LisicalcComponent {
         return '';
     }
   }
-
+  // Efface le texte du textarea et réinitialise les statistiques et les indices
   clearText(): void {
-    
+    const textarea = document.getElementById('text') as HTMLTextAreaElement;
+    if (textarea) {
+      textarea.value = '';
+    }
+    this.caracters = 0;
+    this.voyelles = 0;
+    this.digrammes = 0;
+    this.trigrammes = 0;
+    this.syllabes = 0;
+    this.mots = 0;
+    this.motslongs = 0;
+    this.motspolysyl = 0;
+    this.phrases = 0;
+    this.lix = 0;
+    this.lixdif = "";
+    this.rix = 0;
+    this.rixdif = "";
+    this.fkgl = 0;
+    this.fkgldif = "";
+    this.fog = 0;
+    this.fogdif = "";
+    this.smog = 0;
+    this.smogdif = "";
+    this.colemanliau = 0;
+    this.colemanliaudif = "";
+    this.ari = 0;
+    this.aridif = "";
+    this.stats = [];
+    this.indices = [];
+
   }
 }
