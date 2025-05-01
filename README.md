@@ -1,6 +1,6 @@
 # LitToolkit
 
-Applications pour professeurs de lettres créées sur Angular 19 avec Bootsrap.
+Applications pour professeurs de lettres développées sur Angular 19.
 
 ## Applications développées ou en cours de développement
 
