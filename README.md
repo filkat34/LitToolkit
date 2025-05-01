@@ -12,4 +12,4 @@ Un ensemble d'applications pour professeurs de lettres en cours de développemen
 
 ## 🚧 Site en développement
 
-Vous pouvez consulter le site en développement en cliquant [ici](https://filkat34.github.io/LitToolkit/).
+Vous pouvez consulter le site en cours de développement en cliquant [ici](https://filkat34.github.io/LitToolkit/).
