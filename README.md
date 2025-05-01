@@ -1,6 +1,6 @@
 # LitToolkit
 
-Applications pour professeurs de lettres développées sur Angular 19.
+Applications pour professeurs de lettres développées.
 
 ## Applications développées ou en cours de développement
 
