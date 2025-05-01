@@ -12,3 +12,33 @@ h1{
 h4{
     text-align: center;
 }
+
+/* Très difficile - Rouge */
+.difficulty-very-hard {
+    background-color: #ff4d4d; /* Rouge clair */
+    color: white;
+  }
+  
+  /* Difficile - Orange */
+  .difficulty-hard {
+    background-color: #ffa500; /* Orange */
+    color: white;
+  }
+  
+  /* Intermédiaire - Jaune */
+  .difficulty-medium {
+    background-color: #ffff99; /* Jaune clair */
+    color: black;
+  }
+  
+  /* Facile - Vert clair */
+  .difficulty-easy {
+    background-color: #ccffcc; /* Vert clair */
+    color: black;
+  }
+  
+  /* Très facile - Vert foncé */
+  .difficulty-very-easy {
+    background-color: #006400; /* Vert foncé */
+    color: white;
+  }

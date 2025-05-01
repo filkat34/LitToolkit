@@ -2,27 +2,97 @@
     <h1>Lisicalc</h1>
     <h4>- Calculateur de scores de lisibilité -</h4>
     <br>
-    
-    <p>
-        Les scores de lisibilité sont des indicateurs qui permet d'évaluer la difficulté de lecture d'un texte.
-        Il en existe plusieurs, chacun ayant ses propres critères de calcul.</p>
-    <p>
-        Cette application permet le calcul de sept scores de lisibilité :
-        LIX, RIX, Automated Readability Index (ARI), Gunning Fog index, Coleman-Liau index,
-        Flesch-Kincaid Grade Level (FKGL), Simple Measure of Gobbledygook index (SMOG).
-        Ces indices ont pour la plupart été inventés pour mesurer la lisibilité de textes anglais,
-        à l'exception de l'indice suédois LIX. Ce dernier est sans doute le plus efficace pour donner une mesure juste
-        de
-        la difficulté d'un texte français.
-    </p>
-    <p>
-        Dans tous les cas, un texte sera considéré comme étant aisément lisible par un lecteur moyen
-        s'il relève d'un niveau de difficulté "Intermédiaire" (cela correspond au niveau d'un élève de 3e) ou
-        inférieur ("Facile", "Très facile").
-    </p>
-    <p>
-        Pour calculer le score de lisibilité d'un texte, il vous suffit de le saisir dans la zone de texte ci-dessous,
-        le coller
-        depuis votre presse-papier ou de l'importer depuis un fichier.
-    </p>
+    <div class="container-text-left">
+        <div class="row">
+            <div class="col">
+                <p>
+                    Les scores de lisibilité sont des indicateurs qui permettent d'évaluer la difficulté de lecture d'un
+                    texte.
+                    Il en existe plusieurs, chacun ayant ses propres critères de calcul.
+                </p>
+                <p>
+                    Cette application permet le calcul de sept scores de lisibilité :
+                    LIX, RIX, Automated Readability Index (ARI), Gunning Fog index, Coleman-Liau index,
+                    Flesch-Kincaid Grade Level (FKGL), Simple Measure of Gobbledygook index (SMOG).
+                    Ces indices ont pour la plupart été inventés pour mesurer la lisibilité de textes anglais,
+                    à l'exception de l'indice suédois LIX. Ce dernier est sans doute le plus efficace pour donner une
+                    mesure juste
+                    de
+                    la difficulté d'un texte français.
+                </p>
+                <p>
+                    Dans tous les cas, un texte sera considéré comme étant aisément lisible par un lecteur moyen
+                    s'il relève d'un niveau de difficulté "Intermédiaire" (cela correspond au niveau d'un élève de 3e)
+                    ou
+                    inférieur ("Facile", "Très facile").
+                </p>
+                <p>
+                    Pour calculer le score de lisibilité d'un texte, il vous suffit de le saisir dans la zone de texte,
+                    le coller depuis votre presse-papier ou de l'importer depuis un fichier texte (.txt, .odt, docx).
+                </p>
+            </div>
+            <div class="col">
+                <div class="container-text-center">
+
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-primary" id="btncoller"
+                                (click)="pasteFromClipboard()">Coller</button>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <input class="form-control mx-auto" type="file" id="formFile"
+                                    (change)="readFile($event)" accept=".txt,.docx,.odt" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-floating">
+                            <div class="col text-center">
+                                <textarea class="form-control" placeholder="Collez ou importez le texte à analyser..."
+                                    id="text" style="height: 200px"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col text-center">
+                            <button type="button" class="btn btn-primary btn" id="btnanalyser" (click)="analyser()"
+                                style="width: fit-content;">Calculer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-text-left">
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped table-bordered table-hover" id="stats">
+                    <thead>
+                          <tbody>
+                            <tr *ngFor="let stat of stats">
+                              <td>{{ stat.name }}</td>
+                              <td>{{ stat.value }}</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <table class="table table-striped table-bordered table-hover" id="indices">
+                      <tbody>
+                        <tr *ngFor="let indice of indices" [ngClass]="getBootstrapClass(indice.difficulty)">
+                          <td>{{ indice.name }}</td>
+                          <td>{{ indice.score }}</td>
+                          <td>{{ indice.difficulty }}</td>
+                        </tr>
+                </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
 </main>
