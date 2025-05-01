@@ -18,6 +18,7 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
     "bootstrap": "^5.3.5",
+    "chart.js": "^4.4.9",
     "jszip": "^3.10.1",
     "mammoth": "^1.9.0",
     "odf": "^2.3.4",

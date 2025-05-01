@@ -1,18 +1,17 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { HeaderComponent } from "../header/header.component";
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as mammoth from 'mammoth';
 import * as JSZip from 'jszip';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-lisicalc',
-  imports: [RouterOutlet, RouterLink, HeaderComponent, CommonModule],
+  imports: [CommonModule],
   templateUrl: './lisicalc.component.html',
   styleUrls: ['./lisicalc.component.css'],
 })
 
-export class LisicalcComponent {
+export class LisicalcComponent implements OnDestroy {
 
   //Déclaration des variables
   caracters: number = 0;
@@ -44,6 +43,10 @@ export class LisicalcComponent {
 
   //Tableau des indices de lisibilité
   indices: { name: string; score: number; difficulty: string }[] = [];
+
+  //Sauvegarde de l'instance du graphique
+  private chartInstance: Chart | null = null; // Store the chart instance
+
 
   //Coller un texte depuis le presse-papiers
   async pasteFromClipboard(): Promise<void> {
@@ -326,6 +329,25 @@ export class LisicalcComponent {
         { name: 'Coleman-Liau', score: this.colemanliau, difficulty: this.colemanliaudif },
         { name: 'ARI', score: this.ari, difficulty: this.aridif },
       ];
+
+      // Décompte des occurrences de chaque difficulté
+      // Crée un objet pour stocker les occurrences de chaque difficulté
+      const difficultyCounts: { [key: string]: number } = {
+        'Très difficile': 0,
+        'Difficile': 0,
+        'Intermédiaire': 0,
+        'Facile': 0,
+        'Très facile': 0,
+      };
+
+      this.indices.forEach(indice => {
+        if (difficultyCounts[indice.difficulty] !== undefined) {
+          difficultyCounts[indice.difficulty]++;
+        }
+      });
+
+      // Build the pie chart
+      this.buildPieChart(difficultyCounts);
     }
   }
 
@@ -346,9 +368,67 @@ export class LisicalcComponent {
         return '';
     }
   }
-  // Efface le texte du textarea et réinitialise les statistiques et les indices
+
+  //Fonction pour construire le graphique en camembert
+  buildPieChart(difficultyCounts: { [key: string]: number }): void {
+    const ctx = document.getElementById('difficultyChart') as HTMLCanvasElement;
+
+    // Vérifie si le graphique existe déjà et le détruit avant de créer un nouveau graphique
+    if (this.chartInstance) {
+    this.chartInstance.destroy();
+    this.chartInstance = null; // Reset the chart instance
+  }
+
+    this.chartInstance = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(difficultyCounts),
+        datasets: [
+          {
+            data: Object.values(difficultyCounts),
+            backgroundColor: [
+              '#ff4d4d', // Très difficile - Rouge
+              '#ffa500', // Difficile - Orange
+              '#ffff99', // Intermédiaire - Jaune clair
+              '#ccffcc', // Facile - Vert clair
+              '#006400', // Très facile - Vert foncé
+            ],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // Allow the chart to resize dynamically
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                const label = context.label || '';
+                const value = context.raw || 0;
+                return `${label}: ${value}`;
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  // Clean up the chart when the component is destroyed
+  ngOnDestroy(): void {
+    if (this.chartInstance) {
+      this.chartInstance.destroy();
+    }
+  }
+
+
+  // Efface le texte du textarea et réinitialise les statistiques, les indices, le graphique
   clearText(): void {
     const textarea = document.getElementById('text') as HTMLTextAreaElement;
+    const ctx = document.getElementById('difficultyChart') as HTMLCanvasElement;
     if (textarea) {
       textarea.value = '';
     }
@@ -377,6 +457,8 @@ export class LisicalcComponent {
     this.aridif = "";
     this.stats = [];
     this.indices = [];
+
+    Chart.getChart(ctx)?.destroy();
 
   }
 }

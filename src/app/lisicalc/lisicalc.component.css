@@ -42,3 +42,13 @@ h4{
     background-color: #006400; /* Vert foncé */
     color: white;
   }
+
+  #difficultyChart {
+    width: 100%;
+    height: auto;
+  }
+  
+  canvas {
+    display: block;
+  }
+

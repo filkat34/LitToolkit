@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterOutlet, NavigationEnd } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from "./header/header.component";
 import { AboutComponent } from "./about/about.component";
 import { AppListComponent } from './app-list/app-list.component';
@@ -7,7 +7,7 @@ import { AppListComponent } from './app-list/app-list.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, HeaderComponent, AboutComponent, AppListComponent],
+  imports: [RouterOutlet, HeaderComponent, AboutComponent, AppListComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
