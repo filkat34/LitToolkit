@@ -7,4 +7,5 @@ Un ensemble d'applications pour professeurs de lettres en cours de développemen
 ## ⚙️ Applications 
 
 - [x] LisiCalc : calcul de sept indices de lisibilité
-- [ ] VocabQuest : apprendre des stratégies pour deviner le sens d'un mot
+- [ ] VocabQuest : stratégies pour deviner le sens d'un mot
+- [ ] Brouillez! : les gestes du brouillon
