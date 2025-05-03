@@ -37,13 +37,13 @@
                     <div class="row">
                         <div class="col">
                             <button type="button" class="btn btn-primary" id="btncoller"
-                                (click)="pasteFromClipboard()">Coller</button>
+                                (click)="Paste()">Coller</button>
                         </div>
 
                         <div class="col">
                             <div class="mb-3">
                                 <input class="form-control mx-auto" type="file" id="formFile"
-                                    (change)="readFile($event)" accept=".txt,.docx,.odt" />
+                                    (change)="FileInput($event)" accept=".txt,.docx,.odt" />
                             </div>
                         </div>
                     </div>
@@ -57,13 +57,12 @@
                         </div>
                     </div>
                     <br>
-
                     <div class="row">
-                        <div class="col text-center">
-                            <button type="button" class="btn btn-primary me-2" id="btnanalyser" (click)="analyser()"
-                                style="width: fit-content;">Calculer</button>
-                            <button type="button" class="btn btn-danger" id="btneffacer" style="width: fit-content;"
-                                (click)="clearText()">
+                        <div class="col-12 d-flex justify-content-center flex-wrap gap-2">
+                            <button type="button" class="btn btn-primary" id="btnanalyser" (click)="analyser()">
+                                Calculer
+                            </button>
+                            <button type="button" class="btn btn-danger" id="btneffacer" (click)="clearText()">
                                 Effacer
                             </button>
                         </div>
@@ -97,7 +96,7 @@
                 </table>
             </div>
             <div class="col">
-                <div class="col text-center">
+                <div class="text-center">
                     <canvas id="difficultyChart" style="min-width: auto; margin: auto;"></canvas>
                 </div>
             </div>

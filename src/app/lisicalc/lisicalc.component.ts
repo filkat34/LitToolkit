@@ -1,8 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as mammoth from 'mammoth';
-import * as JSZip from 'jszip';
+import { ClipboardService } from '../services/clipboard.service';
 import Chart from 'chart.js/auto';
+import { ImportdocumentService } from '../services/importdocument.service';
 
 @Component({
   selector: 'app-lisicalc',
@@ -13,6 +13,11 @@ import Chart from 'chart.js/auto';
 
 export class LisicalcComponent implements OnDestroy {
 
+  constructor(
+    private clipboardService: ClipboardService,
+    private importdocument: ImportdocumentService
+  ) {}
+  
   //Déclaration des variables
   caracters: number = 0;
   voyelles: number = 0;
@@ -48,78 +53,29 @@ export class LisicalcComponent implements OnDestroy {
   private chartInstance: Chart | null = null; // Store the chart instance
 
 
-  //Coller un texte depuis le presse-papiers
-  async pasteFromClipboard(): Promise<void> {
-    try {
-      const text = await navigator.clipboard.readText(); // Wait for clipboard text
-      const textarea = document.getElementById('text') as HTMLTextAreaElement;
-      if (textarea) {
-        textarea.value = text; // Paste the clipboard text into the textarea
-      }
-    } catch (err) {
-      console.error('Impossible de coller le texte depuis le presse-papiers: ', err);
-    }
+  //Coller le texte depuis le presse-papiers
+  async Paste(): Promise<void> {
+    await this.clipboardService.pasteFromClipboard(
+      document.getElementById('text') as HTMLTextAreaElement
+    );
   }
 
-  //Importer un fichier texte (.txt, .docx, .odt)
-  async readFile(event: Event): Promise<void> {
+  //Importer un fichier texte et le coller dans le textarea
+  async FileInput(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) {
       return;
     }
-    const file = input.files[0];
+    const file = input.files[0]; // Extraire le fichier
     const textarea = document.getElementById('text') as HTMLTextAreaElement;
-
-    if (file.type === 'text/plain') {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (textarea) {
-          textarea.value = reader.result as string;
-        }
-      };
-      reader.readAsText(file);
-    } else if (file.name.endsWith('.docx')) {
-      const reader = new FileReader();
-      reader.onload = async () => {
-        try {
-          const result = await mammoth.extractRawText({ arrayBuffer: reader.result as ArrayBuffer });
-          if (textarea) {
-            textarea.value = result.value;
-          }
-        } catch (err) {
-          console.error('Error reading DOCX file:', err);
-          alert('Echec de lecture du fichier DOCX.');
-        }
-      };
-      reader.readAsArrayBuffer(file);
-    } else if (file.name.endsWith('.odt')) {
-      const reader = new FileReader();
-      reader.onload = async () => {
-        try {
-          const zip = await JSZip.loadAsync(reader.result as ArrayBuffer);
-          const contentXml = await zip.file('content.xml')?.async('string');
-          if (contentXml) {
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(contentXml, 'application/xml');
-            const textElements = xmlDoc.getElementsByTagName('text:p');
-            let extractedText = '';
-            for (let i = 0; i < textElements.length; i++) {
-              extractedText += textElements[i].textContent + '\n';
-            }
-            if (textarea) {
-              textarea.value = extractedText;
-            }
-          } else {
-            alert('Impossible de lire le contenu du fichier ODT.');
-          }
-        } catch (err) {
-          console.error('Error reading ODT file:', err);
-          alert('Echec de lecture du fichier ODT.');
-        }
-      };
-      reader.readAsArrayBuffer(file);
-    } else {
-      alert('Type de fichier non pris en charge. Veuillez importer un fichier .txt, .docx ou .odt.');
+  
+    try {
+      const text = await this.importdocument.readFile(file); // Appeler le service avec le fichier
+      if (textarea) {
+        textarea.value = text; // Insérer le texte dans le textarea
+      }
+    } catch (err) {
+      alert(err); // Gérer les erreurs
     }
   }
 
@@ -346,7 +302,7 @@ export class LisicalcComponent implements OnDestroy {
         }
       });
 
-      // Build the pie chart
+      // Construire le graphique en camembert
       this.buildPieChart(difficultyCounts);
     }
   }
@@ -417,13 +373,12 @@ export class LisicalcComponent implements OnDestroy {
     });
   }
 
-  // Clean up the chart when the component is destroyed
+  // Détrut le graphique pour éviter les erreurs lors du redimensionnement de la fenêtre
   ngOnDestroy(): void {
     if (this.chartInstance) {
       this.chartInstance.destroy();
     }
   }
-
 
   // Efface le texte du textarea et réinitialise les statistiques, les indices, le graphique
   clearText(): void {
