@@ -9,10 +9,14 @@
 </head>
 <body>
   <script>
-    // Redirige toutes les requêtes vers index.html
-    const redirectTo = window.location.pathname.replace('https://filkat34.github.io/LitToolkit/', '');
-    if (redirectTo !== '/' && !redirectTo.startsWith('/index.html')) {
-      window.location.href = '/LitToolkit/index.html#' + redirectTo; // Ajoute un hash pour Angular
+    // Redirige toutes les requêtes vers index.html tout en conservant la route actuelle
+    const baseHref = '/LitToolkit/'; // Chemin de base de votre application (nom du dépôt)
+    const redirectTo = window.location.pathname.replace(baseHref, '');
+  
+    // Si l'utilisateur n'est pas déjà sur index.html ou une route avec un hash
+    if (redirectTo !== '' && !redirectTo.startsWith('index.html') && !window.location.hash) {
+      // Redirige vers index.html tout en ajoutant la route actuelle comme hash
+      window.location.href = baseHref + 'index.html#/' + redirectTo;
     }
   </script>
   <app-root></app-root>
