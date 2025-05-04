@@ -1,0 +1,7 @@
+<script>
+  // Redirige toutes les requêtes vers index.html
+  const redirectTo = window.location.pathname;
+  if (redirectTo !== '/') {
+    window.location.href = '/index.html?' + redirectTo;
+  }
+</script>
