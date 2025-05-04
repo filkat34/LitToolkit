@@ -19,6 +19,9 @@
     if (redirectTo !== '' && !redirectTo.startsWith('index.html') && !window.location.hash) {
       // Redirige vers index.html tout en ajoutant la route actuelle comme hash
       window.location.href = baseHref + 'index.html#/' + redirectTo;
+    } else if (redirectTo === '') {
+      // Si aucune route n'est spécifiée, redirige vers la page d'accueil
+      window.location.href = baseHref + 'index.html';
     }
   </script>
   <app-root></app-root>
