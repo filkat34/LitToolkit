@@ -9,8 +9,10 @@
 </head>
 <body>
   <script>
-    // Redirige toutes les requêtes vers index.html tout en conservant la route actuelle
-    const baseHref = '/LitToolkit/'; // Chemin de base de votre application (nom du dépôt)
+    // Obtenir le chemin de base à partir de la balise <base>
+    const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
+  
+    // Extraire la route actuelle en supprimant le chemin de base
     const redirectTo = window.location.pathname.replace(baseHref, '');
   
     // Si l'utilisateur n'est pas déjà sur index.html ou une route avec un hash
