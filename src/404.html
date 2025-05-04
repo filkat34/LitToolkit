@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>LitToolkit</title>
+  <base href="https://filkat34.github.io/LitToolkit/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <script>
+    // Obtenir le chemin de base à partir de la balise <base>
+    const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
+  
+    // Extraire la route actuelle en supprimant le chemin de base
+    const redirectTo = window.location.pathname.replace(baseHref, '');
+  
+    // Si l'utilisateur n'est pas déjà sur index.html ou une route avec un hash
+    if (redirectTo !== '' && !redirectTo.startsWith('index.html') && !window.location.hash) {
+      // Redirige vers index.html tout en ajoutant la route actuelle comme hash
+      window.location.href = baseHref + 'index.html#/' + redirectTo;
+    }
+  </script>
+  <app-root></app-root>
+</body>
+</html>
