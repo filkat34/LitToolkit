@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>LitToolkit</title>
-  <base href="https://filkat34.github.io/LitToolkit/">
+  <base href="/LitToolkit/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
@@ -18,10 +18,10 @@
   // Si l'utilisateur n'est pas déjà sur index.html ou une route avec un hash
   if (redirectTo !== '' && !redirectTo.startsWith('index.html') && !window.location.hash) {
     // Redirige vers index.html tout en ajoutant la route actuelle comme hash
-    window.location.href = 'index.html#/' + redirectTo;
+    window.location.href = baseHref + 'index.html#/' + redirectTo;
   } else if (redirectTo === '') {
     // Si aucune route n'est spécifiée, redirige vers la page d'accueil
-    window.location.href = 'index.html';
+    window.location.href = baseHref + 'index.html';
   }
 </script>
   <app-root></app-root>

@@ -6,5 +6,9 @@ export const routes: Routes = [
   {
     path: 'lisicalc',
     component: LisicalcComponent,
-      },
+  },
+  {
+    path: '**',
+    redirectTo: 'index.html', // Redirige les routes non trouvées vers l'accueil
+  }
 ];
