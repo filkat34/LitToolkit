@@ -18,7 +18,7 @@
     // Si l'utilisateur n'est pas déjà sur index.html ou une route avec un hash
     if (redirectTo !== '' && !redirectTo.startsWith('index.html') && !window.location.hash) {
       // Redirige vers index.html tout en ajoutant la route actuelle comme hash
-      window.location.href = baseHref + 'index.html#/' + redirectTo;
+      window.location.href = baseHref + redirectTo;
     }
   </script>
   <app-root></app-root>
