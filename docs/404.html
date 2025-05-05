@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <title>LitToolkit</title>
@@ -9,21 +9,18 @@
 </head>
 <body>
   <script>
-  // Obtenir le chemin de base à partir de la balise <base>
-  const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
-
-  // Extraire la route actuelle en supprimant le chemin de base
-  const redirectTo = window.location.pathname.replace(baseHref, '');
-
-  // Si l'utilisateur n'est pas déjà sur index.html ou une route avec un hash
-  if (redirectTo !== '' && !redirectTo.startsWith('index.html') && !window.location.hash) {
-    // Redirige vers index.html tout en ajoutant la route actuelle comme hash
-    window.location.href = baseHref + 'index.html#/' + redirectTo;
-  } else if (redirectTo === '') {
-    // Si aucune route n'est spécifiée, redirige vers la page d'accueil
-    window.location.href = baseHref + 'index.html';
-  }
-</script>
+    // Obtenir le chemin de base à partir de la balise <base>
+    const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
+  
+    // Extraire la route actuelle en supprimant le chemin de base
+    const redirectTo = window.location.pathname.replace(baseHref, '');
+  
+    // Si l'utilisateur n'est pas déjà sur index.html ou une route avec un hash
+    if (redirectTo !== '' && !redirectTo.startsWith('index.html') && !window.location.hash) {
+      // Redirige vers index.html tout en ajoutant la route actuelle comme hash
+      window.location.href = baseHref + redirectTo;
+    }
+  </script>
   <app-root></app-root>
 </body>
 </html>
