@@ -13,13 +13,13 @@ import { AppListComponent } from './app-list/app-list.component';
 })
 export class AppComponent {
   title = 'LitToolkit';
-  hideHomeComponents = false; // State variable to control visibility
+  hideHomeComponents = false; // Visibilité des composants de la page d'accueil
 
   constructor(private router: Router) {
-    // Listen to route changes
+    // Ecouteur d'événements de navigation pour changer la visibilité des composants
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        // Hide home components on route change
+        // Cacher les composants de la page d'accueil si l'URL n'est pas '/'
         this.hideHomeComponents = event.url !== '/';
       }
     });
