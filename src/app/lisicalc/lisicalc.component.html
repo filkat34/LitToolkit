@@ -1,39 +1,104 @@
 <main>
-    <h1>Lisicalc</h1>
+    <h1>LisiCalc</h1>
     <h4>- Calculateur de scores de lisibilité -</h4>
     <br>
-    <div class="container-text-left">
-        <div class="row">
-            <div class="col">
-                <p>
-                    Les scores de lisibilité sont des indicateurs qui permettent d'évaluer la difficulté de lecture d'un
-                    texte.
-                    Il en existe plusieurs, chacun ayant ses propres critères de calcul.
-                </p>
-                <p>
-                    Cette application permet le calcul de sept scores de lisibilité :
-                    LIX, RIX, Automated Readability Index (ARI), Gunning Fog index, Coleman-Liau index,
-                    Flesch-Kincaid Grade Level (FKGL), Simple Measure of Gobbledygook index (SMOG).
-                    Ces indices ont pour la plupart été inventés pour mesurer la lisibilité de textes anglais,
-                    à l'exception de l'indice suédois LIX. Ce dernier est sans doute le plus efficace pour donner une
-                    mesure juste
-                    de
-                    la difficulté d'un texte français.
-                </p>
-                <p>
-                    Dans tous les cas, un texte sera considéré comme étant aisément lisible par un lecteur moyen
-                    s'il relève d'un niveau de difficulté "Intermédiaire" (cela correspond au niveau d'un élève de 3e)
-                    ou
-                    inférieur ("Facile", "Très facile").
-                </p>
-                <p>
-                    Pour calculer le score de lisibilité d'un texte, il vous suffit de le saisir dans la zone de texte,
-                    le coller depuis votre presse-papier ou de l'importer depuis un fichier texte (.txt, .odt, docx).
-                </p>
+    <div class="accordion" id="processAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Scores de lisibilité ?
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                data-bs-parent="#processAccordion">
+                <div class="accordion-body">
+                    <p>
+                        Les scores de lisibilité sont des indicateurs qui permettent d'évaluer la difficulté de lecture
+                        d'un
+                        texte mais sans prendre en compte la sémantique, c'est-à-dire le sens des mots et des phrases,
+                        ni la cohérence globale du texte.
+                        Il en existe plusieurs, chacun ayant ses propres critères de calcul : ces critères combinent
+                        souvent la longueur des mots
+                        avec celle des phrases du texte. Cette application permet le calcul de sept indices de
+                        lisibilité :
+                    <ul>
+                        <li>LIX</li>
+                        <li>RIX</li>
+                        <li>Automated Readability Index (ARI)</li>
+                        <li>Gunning Fog index</li>
+                        <li>Coleman-Liau index</li>
+                        <li>Flesch-Kincaid Grade Level (FKGL)</li>
+                        <li>Simple Measure of Gobbledygook index (SMOG)</li>
+                    </ul>
+                </div>
             </div>
-            <div class="col">
-                <div class="container-text-center">
+        </div>
 
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Comment les interpréter ?
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                data-bs-parent="#processAccordion">
+                <div class="accordion-body">
+                    <p>Ces indices ont pour la plupart été inventés pour mesurer la lisibilité de textes anglais,
+                        à l'exception de l'indice suédois LIX. Ce dernier est d'ailleurs sans doute le plus efficace
+                        pour donner une
+                        mesure juste de la difficulté d'un texte français.
+                    </p>
+                    <p>Le principe d'interprétation de ces indices de lisibilité est simple : plus le score est élevé,
+                        plus le texte est-à-dire
+                        difficile à lire. L'application propose automatiquement une analyse de ce score. En général, un
+                        texte sera considéré
+                        comme étant aisément lisible par un lecteur moyen, s'il relève d'un niveau de difficulté
+                        "Intermédiaire" (cela correspond au niveau d'un élève de 3e)
+                        ou inférieur ("Facile", "Très facile").
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Pourquoi les utiliser ?
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                data-bs-parent="#processAccordion">
+                <div class="accordion-body">
+                    <p>
+                        Les scores de lisibilité peuvent être des outils pour l'enseignant dans son choix de textes
+                        proposés aux élèves aux cycles 3 et 4,
+                        même s'ils ne doivent pas être utilisés comme des critères absolus.
+                    </p>
+                    <p>
+                        La lisibilité d'un texte et la mémoire de travail sont deux concepts étroitement liés.
+                        La mémoire de travail a une capacité limitée. Si un texte est difficile à lire, une grande
+                        partie de cette capacité
+                        est utilisée pour déchiffrer les mots et les phrases, laissant moins de ressources pour le
+                        traitement de l'information.
+                        Un texte lisible, en revanche, permet de libérer des ressources cognitives pour des tâches plus
+                        complexes.
+                    </p>
+                    <p>
+                        Les scores de lisibilité peuvent donc aider l'enseignant à :
+                    </p>
+                    <ul>
+                        <li>choisir des textes adaptés au niveau de difficulté attendu ;</li>
+                        <li>mettre en place des pratiques de différenciation en identifiant mieux les textes lisibles de ceux qui le sont moins ;</li>
+                        <li>concevoir des séances davantage axées sur la compréhension et l'analyse des idées plutôt que sur le déchiffrage.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
                     <div class="row">
                         <div class="col">
                             <button type="button" class="btn btn-primary" id="btncoller"
@@ -67,10 +132,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<br>
     <div class="container-text-left">
         <div class="row">
             <div class="col">
@@ -95,11 +157,11 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col">
-                <div class="text-center">
-                    <canvas id="difficultyChart" style="min-width: auto; margin: auto;"></canvas>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="text-center">
+            <canvas id="difficultyChart" style="min-width: auto; margin: auto;"></canvas>
         </div>
     </div>
 

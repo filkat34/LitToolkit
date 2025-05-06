@@ -1,51 +1,17 @@
 <main>
-  <div class="text-center mb-4">
-    <div class="row">
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-header">
-            Lecture
-          </div>
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">LisiCalc</h5>
-            <p class="card-text">
-              Calculer les scores de lisibilité d'un texte.
-            </p>
-            <div class="mt-auto">
-              <a routerLink='/lisicalc' class="btn btn-primary">Lancer</a>
-            </div>
-          </div>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let app of applications">
+      <div class="card h-100">
+        <div class="card-header">
+          {{ app.title }}
         </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-header">
-            Vocabulaire
-          </div>
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">LexiQuête</h5>
-            <p class="card-text">
-              Apprendre des stratégies pour deviner le sens d'un mot.
-            </p>
-            <div class="mt-auto">
-              <a routerLink='/lexiquete' class="btn btn-primary">Lancer</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-header">
-            Rédaction
-          </div>
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">Brouillez !</h5>
-            <p class="card-text">
-              Apprendre les gestes du brouillon.
-            </p>
-            <div class="mt-auto">
-              <a routerLink='' class="btn btn-secondary">A venir</a>
-            </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ app.title }}</h5>
+          <p class="card-text">{{ app.description }}</p>
+          <div class="mt-auto">
+            <a [routerLink]="app.routerLink" [class]="app.buttonClass" class="btn">
+              {{ app.buttonText }}
+            </a>
           </div>
         </div>
       </div>
