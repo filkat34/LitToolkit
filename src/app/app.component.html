@@ -1,6 +1,11 @@
 <app-header></app-header>
-<div [hidden]="hideHomeComponents" class="homecomponents">
-    <app-about></app-about>
-    <app-app-list></app-app-list>
+<div class="d-flex flex-column min-vh-100">
+    <main class="flex-grow-1">
+        <div [hidden]="hideHomeComponents" class="homecomponents">
+            <app-about></app-about>
+            <app-app-list></app-app-list>
+        </div>
+        <router-outlet />
+    </main>
+    <app-footer></app-footer>
 </div>
-<router-outlet />

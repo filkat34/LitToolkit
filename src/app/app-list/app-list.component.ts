@@ -30,14 +30,6 @@ export class AppListComponent {
       routerLink: '/lexiquete',
       buttonText: 'Lancer',
       buttonClass: 'btn-primary'
-    },
-    {
-      categorie: 'Grammaire',
-      title: 'TaGrammaire',
-      description: 'S\'entraîner à la question de grammaire au bac.',
-      routerLink: '',
-      buttonText: 'À venir',
-      buttonClass: 'btn-secondary'
     }
   ];
 

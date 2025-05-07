@@ -1,4 +1,4 @@
-<main>
+<div class="lisicalcmain">
     <h1>LisiCalc</h1>
     <br>
     <div class="accordion" id="processAccordion">
@@ -89,49 +89,49 @@
                     </p>
                     <ul>
                         <li>choisir des textes adaptés au niveau de difficulté attendu ;</li>
-                        <li>mettre en place des pratiques de différenciation en identifiant mieux les textes lisibles de ceux qui le sont moins ;</li>
-                        <li>concevoir des séances davantage axées sur la compréhension et l'analyse des idées plutôt que sur le déchiffrage.</li>
+                        <li>mettre en place des pratiques de différenciation en identifiant mieux les textes lisibles de
+                            ceux qui le sont moins ;</li>
+                        <li>concevoir des séances davantage axées sur la compréhension et l'analyse des idées plutôt que
+                            sur le déchiffrage.</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-
     <br>
-                    <div class="row">
-                        <div class="col">
-                            <button type="button" class="btn btn-primary" id="btncoller"
-                                (click)="Paste()">Coller</button>
-                        </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary" id="btncoller" (click)="Paste()">Coller</button>
+        </div>
 
-                        <div class="col">
-                            <div class="mb-3">
-                                <input class="form-control mx-auto" type="file" id="formFile"
-                                    (change)="FileInput($event)" accept=".txt,.docx,.odt" />
-                            </div>
-                        </div>
-                    </div>
+        <div class="col">
+            <div class="mb-3">
+                <input class="form-control mx-auto" type="file" id="formFile" (change)="FileInput($event)"
+                    accept=".txt,.docx,.odt" />
+            </div>
+        </div>
+    </div>
 
-                    <div class="row">
-                        <div class="form-floating">
-                            <div class="col text-center">
-                                <textarea class="form-control" placeholder="Collez ou importez le texte à analyser..."
-                                    id="text" style="height: 200px"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-center flex-wrap gap-2">
-                            <button type="button" class="btn btn-primary" id="btnanalyser" (click)="analyser()">
-                                Calculer
-                            </button>
-                            <button type="button" class="btn btn-danger" id="btneffacer" (click)="clearText()">
-                                Effacer
-                            </button>
-                        </div>
-                    </div>
-<br>
+    <div class="row">
+        <div class="form-floating">
+            <div class="col text-center">
+                <textarea class="form-control" placeholder="Collez ou importez le texte à analyser..." id="text"
+                    style="height: 200px"></textarea>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center flex-wrap gap-2">
+            <button type="button" class="btn btn-primary" id="btnanalyser" (click)="analyser()">
+                Calculer
+            </button>
+            <button type="button" class="btn btn-danger" id="btneffacer" (click)="clearText()">
+                Effacer
+            </button>
+        </div>
+    </div>
+    <br>
     <div class="container-text-left">
         <div class="row">
             <div class="col">
@@ -163,5 +163,4 @@
             <canvas id="difficultyChart" style="min-width: auto; margin: auto;"></canvas>
         </div>
     </div>
-
-</main>
+</div>

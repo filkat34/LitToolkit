@@ -120,13 +120,25 @@ export class LexiqueteComponent {
     this.clickableWords = this.text.split(/\s+/);
   }
 
-  /**
-   * Méthode pour gérer le click sur un mot
-   * @param word 
-   */
-  onWordClick(word: string): void {
-    console.log(`Mot cliqué : ${word}`);
+
+  selectedWords: string[] = []; // Liste des mots sélectionnés
+
+  removePunctuation(word: string): string {
+    return word.replace(/[^\p{L}\p{N}']/gu, "").trim(); // Supprime tout sauf les lettres, chiffres et apostrophes
+}
+
+onWordClick(word: string): void {
+  const cleanedWord = this.removePunctuation(word); // Nettoie le mot en supprimant la ponctuation
+  if (cleanedWord) { // Vérifie si le mot nettoyé est valide
+      if (!this.selectedWords.includes(cleanedWord)) {
+          this.selectedWords.push(cleanedWord); // Ajoute le mot nettoyé à la liste des mots sélectionnés
+          console.log(`Mot sélectionné : ${cleanedWord}`);
+      }
+  } else {
+      console.log(`Le mot "${word}" n'est pas valide.`);
   }
+}
+ 
 }
 
 

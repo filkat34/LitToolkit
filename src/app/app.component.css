@@ -1,0 +1,17 @@
+html, body {
+    height: 100%; /* Ensure the body takes the full height of the viewport */
+    margin: 0; /* Remove default margins */
+}
+
+.d-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.min-vh-100 {
+    min-height: 100vh; /* Ensure the container takes at least the full viewport height */
+}
+
+.flex-grow-1 {
+    flex: 1; /* Allow the main content to grow and push the footer down */
+}

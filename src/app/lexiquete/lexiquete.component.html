@@ -1,13 +1,9 @@
-<main>
+<div class="lexiquetemain">
   <h1>LexiQuête</h1>
   <br>
 
   <!-- Étape 1 -->
   <div *ngIf="currentStep === 1">
-    <br>
-    <div class="text-center">
-      Il est conseillé de choisir un texte court (moins de 400 mots).
-    </div>
     <br>
     <div class="row">
       <div class="col">
@@ -23,13 +19,9 @@
     <div class="row">
       <div class="form-floating">
         <div class="col text-center">
-          <textarea
-          class="form-control"
-          placeholder="Collez ou importez le texte sur lequel vous souhaitez travailler..."
-          id="text"
-          style="height: 200px"
-          [(ngModel)]="text"
-          (input)="updateText($event)"></textarea>
+          <textarea class="form-control"
+            placeholder="Collez ou importez un texte de moins de 1000 mots..." id="text"
+            style="height: 200px" [(ngModel)]="text" (input)="updateText($event)"></textarea>
         </div>
       </div>
     </div>
@@ -41,18 +33,18 @@
   </div>
 
   <!-- Étape 2 -->
-<div *ngIf="currentStep === 2">
-  <h5><p>Cliquez sur un mot pour interagir avec lui :</p></h5>
-  <div class="d-flex flex-wrap gap-2">
-    <p
-      *ngFor="let word of clickableWords"
-      class="clickable-word"
-      (click)="onWordClick(word)"
-    >
-      {{ word }}
-    </p>
+  <div *ngIf="currentStep === 2">
+    <div class="d-flex flex-wrap gap-2">
+      <p
+          *ngFor="let word of clickableWords"
+          class="clickable-word"
+          [ngClass]="{'selected-word': selectedWords.includes(removePunctuation(word))}"
+          (click)="onWordClick(word)"
+      >
+          {{ word }}
+      </p>
   </div>
-</div>
+  </div>
 
   <!-- Étape 3 -->
   <div *ngIf="currentStep === 3">
@@ -61,19 +53,15 @@
   </div>
 
   <!-- Boutons de Navigation -->
-<div class="row mt-4">
-  <div class="col-12 d-flex justify-content-between">
-    <button type="button" class="btn btn-secondary" (click)="previousStep()" [disabled]="currentStep === 1">
-      Précédent
-    </button>
-    <button
-    type="button"
-    class="btn btn-primary"
-    (click)="nextStep()"
-    [disabled]="currentStep === 1 && text.trim() === ''"
-    >
-      Suivant
-    </button>
+  <div class="row mt-4">
+    <div class="col-12 d-flex justify-content-between">
+      <button type="button" class="btn btn-secondary" (click)="previousStep()" [disabled]="currentStep === 1">
+        Précédent
+      </button>
+      <button type="button" class="btn btn-primary" (click)="nextStep()"
+        [disabled]="currentStep === 1 && text.trim() === '' || numberWords > 1000 ">
+        Suivant
+      </button>
+    </div>
   </div>
 </div>
-</main>

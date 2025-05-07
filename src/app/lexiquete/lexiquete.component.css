@@ -1,4 +1,4 @@
-main{
+.lexiquetemain{
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 20px;
@@ -14,3 +14,18 @@ h1{
     font-weight: bold;
   }
 
+
+  .clickable-word {
+    cursor: pointer;
+    color: black; 
+    transition: color 0.3s ease;
+}
+
+.clickable-word:hover {
+    text-decoration:none;
+}
+
+.selected-word {
+    color: blue;
+    font-weight: bold;
+}
