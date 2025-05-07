@@ -414,6 +414,5 @@ export class LisicalcComponent implements OnDestroy {
     this.indices = [];
 
     Chart.getChart(ctx)?.destroy();
-
   }
 }

@@ -1,9 +1,13 @@
 <main>
+  <div class="mb-4">
+    <input type="text" class="form-control" placeholder="Rechercher une application..." [(ngModel)]="searchTerm"
+      (input)="filterApplications()" />
+  </div>
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let app of applications">
-      <div class="card h-100">
+    <div class="col" *ngFor="let app of filteredApplications">
+      <div class="card h-100 text-center">
         <div class="card-header">
-          {{ app.title }}
+          {{ app.categorie }}
         </div>
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ app.title }}</h5>
