@@ -19,8 +19,7 @@
     <div class="row">
       <div class="form-floating">
         <div class="col text-center">
-          <textarea class="form-control"
-            placeholder="Collez ou importez un texte de moins de 1000 mots..." id="text"
+          <textarea class="form-control" placeholder="Collez ou importez un texte de moins de 1000 mots..." id="text"
             style="height: 200px" [(ngModel)]="text" (input)="updateText($event)"></textarea>
         </div>
       </div>
@@ -34,16 +33,13 @@
 
   <!-- Étape 2 -->
   <div *ngIf="currentStep === 2">
-    <div class="d-flex flex-wrap gap-2">
-      <p
-          *ngFor="let word of clickableWords"
-          class="clickable-word"
-          [ngClass]="{'selected-word': selectedWords.includes(removePunctuation(word))}"
-          (click)="onWordClick(word)"
-      >
+    <div class="d-flex flex-wrap gap-1">
+        <span class="clickable-word" *ngFor="let word of clickableWords"
+          [ngClass]="{'selected-word': selectedWords.includes(removePunctuation(word))}" (click)="onWordClick(word)">
           {{ word }}
-      </p>
-  </div>
+        </span>
+      
+    </div>
   </div>
 
   <!-- Étape 3 -->
@@ -56,7 +52,7 @@
   <div class="row mt-4">
     <div class="col-12 d-flex justify-content-between">
       <button type="button" class="btn btn-secondary" (click)="previousStep()" [disabled]="currentStep === 1">
-        Précédent
+        Retour
       </button>
       <button type="button" class="btn btn-primary" (click)="nextStep()"
         [disabled]="currentStep === 1 && text.trim() === '' || numberWords > 1000 ">

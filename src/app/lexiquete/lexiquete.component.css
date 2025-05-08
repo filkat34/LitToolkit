@@ -19,7 +19,11 @@ h1{
     cursor: pointer;
     color: black; 
     transition: color 0.3s ease;
+    display: inline-block;
+    margin-left: 0;
+    word-spacing: 0;
 }
+
 
 .clickable-word:hover {
     text-decoration:none;
@@ -28,4 +32,10 @@ h1{
 .selected-word {
     color: blue;
     font-weight: bold;
+    display: inline-block;
+}
+
+.text{
+    
+    display: inline-block;
 }

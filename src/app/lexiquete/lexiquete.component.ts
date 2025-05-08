@@ -12,11 +12,11 @@ import { FormsModule } from '@angular/forms';
 })
 export class LexiqueteComponent {
 
-/**
- * Initialisations
- * @param clipboardService 
- * @param importdocument 
- */
+  /**
+   * Initialisations
+   * @param clipboardService 
+   * @param importdocument 
+   */
   constructor(
     private clipboardService: ClipboardService,
     private importdocument: ImportdocumentService
@@ -27,9 +27,11 @@ export class LexiqueteComponent {
    */
   currentStep: number = 1; // Étape actuelle (1 par défaut)
   text: string = ''; // Variable pour stocker le texte saisi
+  numberWords: number = 0; // Nombre de mots du texte saisi
   clickableWords: string[] = []; // Liste des mots cliquables
-  numberWords: number = 0 ;
-  
+  selectedWords: string[] = []; // Liste des mots sélectionnés
+
+
   /**
    * Méthodes pour gérer la navigation dans l'application
    */
@@ -60,7 +62,7 @@ export class LexiqueteComponent {
   }
 
   /**
-   * Importer un texte depuis un fichier et le coller dans la textarea
+   * Importer un texte depuis un fichier et le coller
    * @param event 
    * @returns 
    */
@@ -85,28 +87,28 @@ export class LexiqueteComponent {
    * @param event 
    */
   updateText(event: Event): void {
-  const textarea = event.target as HTMLTextAreaElement;
-  this.text = textarea.value.trim();
-  this.numberWords = this.nbMots(this.text); // Met à jour le compteur de mots
-}
+    const textarea = event.target as HTMLTextAreaElement;
+    this.text = textarea.value.trim();
+    this.numberWords = this.nbMots(this.text); // Met à jour le compteur de mots
+  }
 
-/**
- * Sauvegarde du texte saisi dans la variable
- * Génération d'un texte cliquable
- */
+  /**
+   * Sauvegarde du texte saisi dans la variable
+   * Génération d'un texte cliquable
+   */
   saveText(): void {
     const textarea = document.getElementById('text') as HTMLTextAreaElement;
     if (textarea) {
       this.text = textarea.value.trim();
-      this.generateClickableWords(); 
+      this.generateClickableWords();
     }
   }
 
- /**
-  * Compteur de mots
-  * @param text 
-  * @returns nombre de mots
-  */
+  /**
+   * Compteur de mots
+   * @param text 
+   * @returns nombre de mots
+   */
   nbMots(text: string): number {
     let regex = /(\w+)/gi;
     const mots = text.match(regex)
@@ -117,28 +119,48 @@ export class LexiqueteComponent {
    * Division du texte en mots
    */
   generateClickableWords(): void {
-    this.clickableWords = this.text.split(/\s+/);
+    // Ajoute des espaces avant et après la ponctuation, sauf pour les apostrophes et les traits d'union entre deux mots
+    this.clickableWords = this.text
+      .replace(/([^\p{L}\p{N}\s'-])/gu, " $1 ") // Ajoute des espaces avant et après les ponctuations (sauf apostrophes et traits d'union)
+      .replace(/'/gu, "' ") // Ajoute un espace uniquement après les apostrophes
+      .replace(/(?<!\p{L})-(?!\p{L})/gu, " - ") // Ajoute des espaces autour des tirets qui ne relient pas deux mots
+      .split(/\s+/) // Divise le texte en mots
+      .map(word => word.trim());
   }
 
-
-  selectedWords: string[] = []; // Liste des mots sélectionnés
-
+  /**
+   * Evite la sélection d'éléments de ponctuation
+   * 
+   * @param word 
+   * @returns 
+   */
   removePunctuation(word: string): string {
-    return word.replace(/[^\p{L}\p{N}']/gu, "").trim(); // Supprime tout sauf les lettres, chiffres et apostrophes
+    return word.replace(/[^\p{L}\p{N}']/gu, "").trim();
+  }
+
+  onWordClick(word: string): void {
+    const element = word;
+    const index = this.selectedWords.indexOf(word);
+    
+    if (index === -1) {
+        // L'élément n'est pas dans le tableau, on l'ajoute
+        this.selectedWords.push(word);
+    } else {
+        // L'élément est déjà dans le tableau, on le supprime
+        this.selectedWords.splice(index, 1);
+    }
+
+
+
+
+    if (!this.selectedWords.includes(word)) {
+      this.selectedWords.push(word); // Ajoute le mot à la liste des mots sélectionnés
+    }
+  }
+
 }
 
-onWordClick(word: string): void {
-  const cleanedWord = this.removePunctuation(word); // Nettoie le mot en supprimant la ponctuation
-  if (cleanedWord) { // Vérifie si le mot nettoyé est valide
-      if (!this.selectedWords.includes(cleanedWord)) {
-          this.selectedWords.push(cleanedWord); // Ajoute le mot nettoyé à la liste des mots sélectionnés
-          console.log(`Mot sélectionné : ${cleanedWord}`);
-      }
-  } else {
-      console.log(`Le mot "${word}" n'est pas valide.`);
-  }
-}
- 
-}
+
+
 
 
