@@ -2,7 +2,7 @@
   <h1>LexiQuête</h1>
   <br>
 
-  <!-- Étape 1 -->
+  <!-- Importer le texte -->
   <div *ngIf="currentStep === 1">
     <br>
     <div class="row">
@@ -31,14 +31,21 @@
     <br>
   </div>
 
-  <!-- Étape 2 -->
+  <!-- Marquer les mots inconnus -->
   <div *ngIf="currentStep === 2">
-    <div class="d-flex flex-wrap gap-1">
-        <span class="clickable-word" *ngFor="let word of clickableWords"
-          [ngClass]="{'selected-word': selectedWords.includes(removePunctuation(word))}" (click)="onWordClick(word)">
+    <div class="d-flex flex-wrap gap-1 mx-5">
+      <ng-container *ngFor="let word of clickableWords; let i = index">
+        <span *ngIf="!isPunctuation(word)" class="clickable-word"
+          [ngClass]="{'selected-word': isSelected(word, i)}" (click)="onWordClick(word, i)">
           {{ word }}
         </span>
-      
+        <!-- Eviter que des espaces soient mis entre dernière lettre et point, virgule... -->
+        <span *ngIf="isPunctuation(word)" class="clickable-word"
+          [ngClass]="{'selected-word': isSelected(word, i)}" (click)="onWordClick(word, i)"
+          style="margin-left: -0.25em">
+          {{ word }}
+        </span>
+      </ng-container>
     </div>
   </div>
 
@@ -49,13 +56,13 @@
   </div>
 
   <!-- Boutons de Navigation -->
-  <div class="row mt-4">
-    <div class="col-12 d-flex justify-content-between">
-      <button type="button" class="btn btn-secondary" (click)="previousStep()" [disabled]="currentStep === 1">
+  <div class="row mt-3">
+    <div class="col-12 d-flex" [ngClass]="{'justify-content-center': isSingleButton(), 'justify-content-between': !isSingleButton()}">
+      <button *ngIf="currentStep !== 1" type="button" class="btn btn-secondary" (click)="previousStep()">
         Retour
       </button>
-      <button type="button" class="btn btn-primary" (click)="nextStep()"
-        [disabled]="currentStep === 1 && text.trim() === '' || numberWords > 1000 ">
+      <button type="button" class="btn btn-primary" (click)="nextStep()" 
+              [disabled]="currentStep === 1 && text.trim() === '' || numberWords > 1000">
         Suivant
       </button>
     </div>

@@ -23,17 +23,16 @@ export class LexiqueteComponent {
   ) { }
 
   /**
-   * Variables utilisées
+   * Variables
    */
   currentStep: number = 1; // Étape actuelle (1 par défaut)
   text: string = ''; // Variable pour stocker le texte saisi
   numberWords: number = 0; // Nombre de mots du texte saisi
   clickableWords: string[] = []; // Liste des mots cliquables
-  selectedWords: string[] = []; // Liste des mots sélectionnés
-
+  selectedWords: { word: string; index: number }[] = [];
 
   /**
-   * Méthodes pour gérer la navigation dans l'application
+   * Gérer la navigation dans l'application
    */
   nextStep(): void {
     if (this.currentStep === 1) {
@@ -47,6 +46,13 @@ export class LexiqueteComponent {
     if (this.currentStep > 1) {
       this.currentStep--;
     }
+  }
+
+  /**
+   * Contrôle s'il s'agit de la première étape (pour cacher le bouton "retour")
+   */
+  isSingleButton(): boolean {
+    return this.currentStep === 1;
   }
 
   /**
@@ -126,35 +132,53 @@ export class LexiqueteComponent {
       .replace(/(?<!\p{L})-(?!\p{L})/gu, " - ") // Ajoute des espaces autour des tirets qui ne relient pas deux mots
       .split(/\s+/) // Divise le texte en mots
       .map(word => word.trim());
+      console.log(this.clickableWords);
   }
 
   /**
    * Evite la sélection d'éléments de ponctuation
-   * 
    * @param word 
    * @returns 
    */
   removePunctuation(word: string): string {
-    return word.replace(/[^\p{L}\p{N}']/gu, "").trim();
+    return word.replace(/[^\p{L}\p{N}-]|(?<!\p{L})-(?!\p{L})/gu, "").trim();
+}
+
+
+  /**
+   * Reconnait signes de ponctuation (permet d'enlever les espaces avant les points, virgules...)
+   * @param word 
+   * @returns 
+   */
+  isPunctuation(word: string): boolean {
+    return /^[.,\/#$%\^&\*{}=`~'’]$/.test(word); // Vérifie que le mot est exactement un signe de ponctuation, y compris l'apostrophe
+}
+
+
+  /**
+   * Contrôle si le mot cliqué est parmi ceux déjà sélectionnés
+   * @param word 
+   * @param index 
+   * @returns boolean
+   */
+  isSelected(word: string, index: number): boolean {
+    return this.selectedWords.some(selected => this.removePunctuation(selected.word) === word && selected.index === index);
   }
 
-  onWordClick(word: string): void {
-    const element = word;
-    const index = this.selectedWords.indexOf(word);
-    
-    if (index === -1) {
-        // L'élément n'est pas dans le tableau, on l'ajoute
-        this.selectedWords.push(word);
+  /**
+   * Ajoute la sélection à la liste de mots sélectionnés
+   * Supprime la sélection s'il se trouve déjà dans la liste des mots sélectionnés
+   * @param word 
+   * @param index 
+   */
+  onWordClick(word: string, index: number): void {
+    const selectedIndex = this.selectedWords.findIndex(selected => selected.word === word && selected.index === index);
+    if (selectedIndex === -1) {
+      // Ajouter uniquement l'occurrence cliquée du mot
+      this.selectedWords.push({ word, index });
     } else {
-        // L'élément est déjà dans le tableau, on le supprime
-        this.selectedWords.splice(index, 1);
-    }
-
-
-
-
-    if (!this.selectedWords.includes(word)) {
-      this.selectedWords.push(word); // Ajoute le mot à la liste des mots sélectionnés
+      // Supprimer uniquement l'occurrence cliquée du mot
+      this.selectedWords.splice(selectedIndex, 1);
     }
   }
 
