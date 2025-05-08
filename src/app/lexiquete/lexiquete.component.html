@@ -1,9 +1,10 @@
 <div class="lexiquetemain">
-  <h1>LexiQuête</h1>
+  <h1 [hidden]="currentStep > 1">LexiQuête</h1>
   <br>
 
   <!-- Importer le texte -->
   <div *ngIf="currentStep === 1">
+    <h4 class="text-center">Importez votre texte et appuyez sur suivant pour commencer...</h4>
     <br>
     <div class="row">
       <div class="col">
@@ -31,18 +32,22 @@
     <br>
   </div>
 
-  <!-- Marquer les mots inconnus -->
+  <!-- Quête 1 : Repérer les mots inconnus -->
   <div *ngIf="currentStep === 2">
-    <div class="d-flex flex-wrap gap-1 mx-5">
+    <h4 class="text-center">Quête 1 : Les mots inconnus</h4>
+    <br>
+    <div class="text-center fs-5 mb-4 bg-primary text-white">
+      <p>Lisez une première fois le texte et marquez les mots dont vous ne connaissez pas le sens en les cliquant.</p>
+    </div>
+    <div class="d-flex flex-wrap gap-1 mx-2 fs-5">
       <ng-container *ngFor="let word of clickableWords; let i = index">
-        <span *ngIf="!isPunctuation(word)" class="clickable-word"
-          [ngClass]="{'selected-word': isSelected(word, i)}" (click)="onWordClick(word, i)">
+        <span *ngIf="!isPunctuation(word)" class="clickable-word" [ngClass]="{'selected-word': isSelected(word, i)}"
+          (click)="onWordClick(word, i)">
           {{ word }}
         </span>
         <!-- Eviter que des espaces soient mis entre dernière lettre et point, virgule... -->
-        <span *ngIf="isPunctuation(word)" class="clickable-word"
-          [ngClass]="{'selected-word': isSelected(word, i)}" (click)="onWordClick(word, i)"
-          style="margin-left: -0.25em">
+        <span *ngIf="isPunctuation(word)" class="clickable-word" [ngClass]="{'selected-word': isSelected(word, i)}"
+          (click)="onWordClick(word, i)" style="margin-left: -0.25em">
           {{ word }}
         </span>
       </ng-container>
@@ -57,12 +62,13 @@
 
   <!-- Boutons de Navigation -->
   <div class="row mt-3">
-    <div class="col-12 d-flex" [ngClass]="{'justify-content-center': isSingleButton(), 'justify-content-between': !isSingleButton()}">
+    <div class="col-12 d-flex"
+      [ngClass]="{'justify-content-center': isSingleButton(), 'justify-content-between': !isSingleButton()}">
       <button *ngIf="currentStep !== 1" type="button" class="btn btn-secondary" (click)="previousStep()">
         Retour
       </button>
-      <button type="button" class="btn btn-primary" (click)="nextStep()" 
-              [disabled]="currentStep === 1 && text.trim() === '' || numberWords > 1000">
+      <button type="button" class="btn btn-primary" (click)="nextStep()"
+        [disabled]="currentStep === 1 && text.trim() === '' || numberWords > 1000">
         Suivant
       </button>
     </div>

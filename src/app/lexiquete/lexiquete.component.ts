@@ -127,12 +127,13 @@ export class LexiqueteComponent {
   generateClickableWords(): void {
     // Ajoute des espaces avant et après la ponctuation, sauf pour les apostrophes et les traits d'union entre deux mots
     this.clickableWords = this.text
-      .replace(/([^\p{L}\p{N}\s'-])/gu, " $1 ") // Ajoute des espaces avant et après les ponctuations (sauf apostrophes et traits d'union)
+      .replace(/([^\p{L}\p{N}\s’'-])/gu, " $1 ") // Ajoute des espaces avant et après les ponctuations (sauf apostrophes et traits d'union)
       .replace(/'/gu, "' ") // Ajoute un espace uniquement après les apostrophes
+      .replace(/’/gu, "’ ") // Ajoute un espace uniquement après les apostrophes
       .replace(/(?<!\p{L})-(?!\p{L})/gu, " - ") // Ajoute des espaces autour des tirets qui ne relient pas deux mots
       .split(/\s+/) // Divise le texte en mots
       .map(word => word.trim());
-      console.log(this.clickableWords);
+    console.log(this.clickableWords);
   }
 
   /**
@@ -141,9 +142,8 @@ export class LexiqueteComponent {
    * @returns 
    */
   removePunctuation(word: string): string {
-    return word.replace(/[^\p{L}\p{N}-]|(?<!\p{L})-(?!\p{L})/gu, "").trim();
-}
-
+    return word.replace(/[^\p{L}\p{N}'’-]|(?<!\p{L})-(?!\p{L})/gu, "").trim();
+  }
 
   /**
    * Reconnait signes de ponctuation (permet d'enlever les espaces avant les points, virgules...)
@@ -151,9 +151,8 @@ export class LexiqueteComponent {
    * @returns 
    */
   isPunctuation(word: string): boolean {
-    return /^[.,\/#$%\^&\*{}=`~'’]$/.test(word); // Vérifie que le mot est exactement un signe de ponctuation, y compris l'apostrophe
-}
-
+    return /^[.,\/#$%\^&\*{}=`~]$/.test(word); // Vérifie que le mot est exactement un signe de ponctuation, y compris l'apostrophe
+  }
 
   /**
    * Contrôle si le mot cliqué est parmi ceux déjà sélectionnés
