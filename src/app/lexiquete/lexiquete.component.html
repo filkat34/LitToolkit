@@ -32,10 +32,8 @@
     <br>
   </div>
 
-  <!-- Quête 1 : Repérer les mots inconnus -->
+  <!-- Repérer les mots inconnus -->
   <div *ngIf="currentStep === 2">
-    <h4 class="text-center">Quête 1 : Les mots inconnus</h4>
-    <br>
     <div class="text-center fs-5 mb-4 bg-primary text-white">
       <p>Lisez une première fois le texte et marquez les mots dont vous ne connaissez pas le sens en les cliquant.</p>
     </div>
@@ -54,21 +52,39 @@
     </div>
   </div>
 
-  <!-- Étape 3 -->
+  <!-- Remplacer les mots schtroumpfés -->
   <div *ngIf="currentStep === 3">
-    <h5>Étape 3 : Résultats</h5>
-    <p>Voici une description de la troisième étape du processus.</p>
+    <div class="text-center fs-5 mb-4 bg-primary text-white">
+      <p>Les mots choisis ont été schtroumphés ! Relisez le texte et essayez de deviner 
+        leur sens. Cliquez sur eux pour les remplacer par un mot de votre choix en fonction
+        du contexte.
+      </p>
+    </div>
+    <div class="d-flex flex-wrap gap-1 mx-2 fs-5">
+      <ng-container *ngFor="let word of schtroumpfClickableWords; let i = index">
+            <!-- Vérifie si le mot est sélectionné -->
+            <span *ngIf="!isNotSchtroumpfedWord(word)" class="clickable-word" [ngClass]="{'schtroumpfWords': !isNotSchtroumpfedWord(word)}"
+                (click)="onWordClick(word, i)">
+                {{ word }}
+            </span>
+            <!-- Affiche les mots non sélectionnés sans les rendre cliquables -->
+            <span *ngIf="isNotSchtroumpfedWord(word)" class="non-clickable-word">
+                {{ word }}
+            </span>
+        </ng-container>
+    </div>
   </div>
 
   <!-- Boutons de Navigation -->
   <div class="row mt-3">
     <div class="col-12 d-flex"
       [ngClass]="{'justify-content-center': isSingleButton(), 'justify-content-between': !isSingleButton()}">
-      <button *ngIf="currentStep !== 1" type="button" class="btn btn-secondary" (click)="previousStep()">
+      <button *ngIf="currentStep !== 1 && currentStep !== 3" type="button" class="btn btn-secondary" (click)="previousStep()">
         Retour
       </button>
       <button type="button" class="btn btn-primary" (click)="nextStep()"
-        [disabled]="currentStep === 1 && text.trim() === '' || numberWords > 1000">
+        [disabled]="(currentStep === 1 && text.trim() === '' || numberWords > 1000) 
+        || (currentStep === 2 && selectedWords.length === 0)">
         Suivant
       </button>
     </div>

@@ -30,21 +30,26 @@ export class LexiqueteComponent {
   numberWords: number = 0; // Nombre de mots du texte saisi
   clickableWords: string[] = []; // Liste des mots cliquables
   selectedWords: { word: string; index: number }[] = [];
+  schtroumpfClickableWords: string[] = []; // Liste des mots cliquables "schtroumpfés"
 
   /**
    * Gérer la navigation dans l'application
    */
   nextStep(): void {
     if (this.currentStep === 1) {
-      this.saveText();
+        this.saveText(); // Sauvegarde le texte et génère les mots cliquables
+    }
+    if (this.currentStep === 2) {
+        this.schtroumpfSelectedWords(); // Schtroumpfe les mots sélectionnés
     }
     if (this.currentStep < 3) {
-      this.currentStep++;
+        this.currentStep++; // Passe à l'étape suivante
     }
-  }
+}
   previousStep(): void {
-    if (this.currentStep > 1) {
-      this.currentStep--;
+    const confirmation = window.confirm("Êtes-vous sûr de vouloir revenir en arrière ? Votre progression sera perdue.");
+    if (confirmation) {
+      this.currentStep--; // Revenir à l'étape précédente
     }
   }
 
@@ -52,7 +57,7 @@ export class LexiqueteComponent {
    * Contrôle s'il s'agit de la première étape (pour cacher le bouton "retour")
    */
   isSingleButton(): boolean {
-    return this.currentStep === 1;
+    return this.currentStep === 1 || this.currentStep === 3;
   }
 
   /**
@@ -75,18 +80,23 @@ export class LexiqueteComponent {
   async FileInput(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) {
-      return;
+        return;
     }
     const file = input.files[0]; // Extraire le fichier
     const textarea = document.getElementById('text') as HTMLTextAreaElement;
     try {
-      const text = await this.importdocument.readFile(file); // Appeler le service avec le fichier
-      this.text = text.trim(); // Met à jour la variable text
-      this.numberWords = this.nbMots(this.text); // Met à jour le compteur de mots
+        const text = await this.importdocument.readFile(file); // Appeler le service avec le fichier
+        this.text = text.trim(); // Met à jour la variable text
+        this.numberWords = this.nbMots(this.text); // Met à jour le compteur de mots
+        if (textarea) {
+            textarea.value = this.text; // Met à jour la zone de texte
+        }
     } catch (err) {
-      alert(err); // Gérer les erreurs
+        alert(err); // Gérer les erreurs
+    } finally {
+        input.value = ''; // Réinitialise l'élément input pour permettre une nouvelle importation
     }
-  }
+}
 
   /**
    * Mise à jour de la variable text
@@ -181,6 +191,78 @@ export class LexiqueteComponent {
     }
   }
 
+  /**
+   * Remplace les mots sélectionnés par "schtroumpf" dans la liste des mots cliquables
+    * Crée une nouvelle liste de mots cliquables "schtroumpfés"
+  */
+  schtroumpfSelectedWords(): void {
+    this.schtroumpfClickableWords = [...this.clickableWords];
+    this.selectedWords.forEach(selected => {
+        const originalWord = selected.word;
+        const schtroumpfedWord = this.generateSchtroumpfWord(originalWord);
+        this.schtroumpfClickableWords[selected.index] = schtroumpfedWord;
+    });
+
+    console.log("Mots schtroumpfés :", this.schtroumpfClickableWords);
+}
+
+/**
+ * Génère un mot "schtroumpfé" à partir d'un mot donné
+ * Trouve la dernière voyelle du mot et ajoute "schtroumpf" avant cette voyelle
+ * @param mot 
+ * @returns 
+ */
+generateSchtroumpfWord(mot: string): string {
+    const voyelles = ["a", "e", "i", "o", "u", "y", "é", "è", "ê", "ë", "â", "î", "ô", "û"];
+    let indexDerniereVoyelle = -1;
+    let schtroumpfWord = "schtroumpf"; // Mot par défaut
+    const regexApostrophe = /\b\w+[’'\u2019\u02BC\u02BB]$/;
+
+    // Vérifie si le mot commence par une majuscule
+    const isCapitalized = mot[0] === mot[0].toUpperCase();
+  
+    // Trouver la dernière voyelle dans le mot
+    for (let i = mot.length - 1; i >= 0; i--) {
+        if (voyelles.includes(mot[i].toLowerCase())) {
+            indexDerniereVoyelle = i;
+            break; // On arrête dès qu'on trouve la dernière voyelle
+        }
+    }
+
+    // Si aucune voyelle n'a été trouvée, on schtroumpfise tout le mot
+    if (indexDerniereVoyelle === -1) {
+      // Vérifie si le mot précédent se termine par une apostrophe
+      if (this.clickableWords.indexOf(mot) > 0 
+  && regexApostrophe.test(this.clickableWords[this.clickableWords.indexOf(mot)-1])) {
+        schtroumpfWord = "eschtroumpf";
+    }
+        if (isCapitalized) {
+            schtroumpfWord = schtroumpfWord[0].toUpperCase() + schtroumpfWord.slice(1);
+        }
+        return schtroumpfWord;
+    }
+
+    // Construire le mot schtroumpfé
+    schtroumpfWord = "schtroumpf" + mot.slice(indexDerniereVoyelle);
+    // Vérifie si le mot précédent se termine par une apostrophe
+  if (this.clickableWords.indexOf(mot) > 0 
+  && regexApostrophe.test(this.clickableWords[this.clickableWords.indexOf(mot)-1])) {
+        schtroumpfWord = "eschtroumpf";
+    }
+    if (isCapitalized) {
+        schtroumpfWord = schtroumpfWord[0].toUpperCase() + schtroumpfWord.slice(1);
+    }
+    return schtroumpfWord;
+}
+
+/**
+ * Vérifie si le mot n'est pas "schtroumpfé"
+ * @param word 
+ * @returns 
+ */
+  isNotSchtroumpfedWord(word: string): boolean {
+    return this.clickableWords.includes(word);
+  }
 }
 
 

@@ -13,12 +13,19 @@ import { ImportdocumentService } from '../services/importdocument.service';
 
 export class LisicalcComponent implements OnDestroy {
 
+  /**
+   * Initialisations
+   * @param clipboardService 
+   * @param importdocument 
+   */
   constructor(
     private clipboardService: ClipboardService,
     private importdocument: ImportdocumentService
-  ) {}
-  
-  //Déclaration des variables
+  ) { }
+
+  /**
+   * Déclaration des variables
+   */
   caracters: number = 0;
   voyelles: number = 0;
   digrammes: number = 0;
@@ -42,25 +49,25 @@ export class LisicalcComponent implements OnDestroy {
   colemanliaudif: string = "";
   ari: number = 0;
   aridif: string = "";
-
-  //Tableau des statistiques du texte
-  stats: { name: string; value: number }[] = [];
-
-  //Tableau des indices de lisibilité
-  indices: { name: string; score: number; difficulty: string }[] = [];
-
-  //Sauvegarde de l'instance du graphique
-  private chartInstance: Chart | null = null; // Store the chart instance
+  stats: { name: string; value: number }[] = [];//Tableau des statistiques du texte
+  indices: { name: string; score: number; difficulty: string }[] = [];//Tableau des indices de lisibilité
+  private chartInstance: Chart | null = null;//Sauvegarde de l'instance du graphique
 
 
-  //Coller le texte depuis le presse-papiers
+/**
+ * Colle les données du presse-papiers dans le textarea
+ */
   async Paste(): Promise<void> {
     await this.clipboardService.pasteFromClipboard(
       document.getElementById('text') as HTMLTextAreaElement
     );
   }
 
-  //Importer un fichier texte et le coller dans le textarea
+  /**
+   * Importe un fichier texte et le colle dans le textarea
+   * @param event 
+   * @returns 
+   */
   async FileInput(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) {
@@ -68,7 +75,7 @@ export class LisicalcComponent implements OnDestroy {
     }
     const file = input.files[0]; // Extraire le fichier
     const textarea = document.getElementById('text') as HTMLTextAreaElement;
-  
+
     try {
       const text = await this.importdocument.readFile(file); // Appeler le service avec le fichier
       if (textarea) {
@@ -76,6 +83,8 @@ export class LisicalcComponent implements OnDestroy {
       }
     } catch (err) {
       alert(err); // Gérer les erreurs
+    } finally {
+      input.value = ''; // Réinitialise l'élément input pour permettre une nouvelle importation
     }
   }
 
@@ -182,7 +191,12 @@ export class LisicalcComponent implements OnDestroy {
     return 4.71 * (this.nbCaracteres(text) / this.nbMots(text)) + 0.5 * (this.nbMots(text) / this.nbPhrases(text)) - 21.43;
   }
 
-  //Analyse des scores de lisibilité
+  /**
+   * Analyse de la difficulté du texte en fonction de l'indice de lisibilité
+   * @param formula 
+   * @param score 
+   * @returns 
+   */
   scoreAnalysis(formula: string, score: number): string {
     let formula_scales = [['lix', 59, 50, 40, 30],
     ['rix', 7.1, 5.3, 2.9, 1.8],
@@ -214,6 +228,12 @@ export class LisicalcComponent implements OnDestroy {
     return "Erreur d'analyse";
   }
 
+  /**
+   * Analyse du texte saisi dans le textarea
+   * Appelle les fonctions de calcul des statistiques et des indices de lisibilité
+   * Remplit les tableaux des statistiques et des indices de lisibilité
+   * @returns 
+   */
   analyser(): void {
     const textarea = document.getElementById('text') as HTMLTextAreaElement;
     let text = textarea.value;
@@ -331,9 +351,9 @@ export class LisicalcComponent implements OnDestroy {
 
     // Vérifie si le graphique existe déjà et le détruit avant de créer un nouveau graphique
     if (this.chartInstance) {
-    this.chartInstance.destroy();
-    this.chartInstance = null; // Reset the chart instance
-  }
+      this.chartInstance.destroy();
+      this.chartInstance = null;
+    }
 
     this.chartInstance = new Chart(ctx, {
       type: 'pie',
@@ -354,7 +374,7 @@ export class LisicalcComponent implements OnDestroy {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false, // Allow the chart to resize dynamically
+        maintainAspectRatio: false, // Permet de redimensionner le graphique dynamiquement
         plugins: {
           legend: {
             position: 'top',
