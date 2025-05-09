@@ -15,6 +15,7 @@
           "options": {
             "outputPath": "dist/lit-toolkit",
             "index": "src/index.html",
+            "baseHref": "/LitToolkit/",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
