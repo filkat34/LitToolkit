@@ -220,6 +220,12 @@ generateSchtroumpfWord(mot: string): string {
 
     // Vérifie si le mot commence par une majuscule
     const isCapitalized = mot[0] === mot[0].toUpperCase();
+
+    // Vérifie si le mot précédent se termine par une apostrophe
+      if (this.clickableWords.indexOf(mot) > 0 
+  && regexApostrophe.test(this.clickableWords[this.clickableWords.indexOf(mot)-1])) {
+        schtroumpfWord = "eschtroumpf";
+    }
   
     // Trouver la dernière voyelle dans le mot
     for (let i = mot.length - 1; i >= 0; i--) {
@@ -231,11 +237,6 @@ generateSchtroumpfWord(mot: string): string {
 
     // Si aucune voyelle n'a été trouvée, on schtroumpfise tout le mot
     if (indexDerniereVoyelle === -1) {
-      // Vérifie si le mot précédent se termine par une apostrophe
-      if (this.clickableWords.indexOf(mot) > 0 
-  && regexApostrophe.test(this.clickableWords[this.clickableWords.indexOf(mot)-1])) {
-        schtroumpfWord = "eschtroumpf";
-    }
         if (isCapitalized) {
             schtroumpfWord = schtroumpfWord[0].toUpperCase() + schtroumpfWord.slice(1);
         }
@@ -243,12 +244,7 @@ generateSchtroumpfWord(mot: string): string {
     }
 
     // Construire le mot schtroumpfé
-    schtroumpfWord = "schtroumpf" + mot.slice(indexDerniereVoyelle);
-    // Vérifie si le mot précédent se termine par une apostrophe
-  if (this.clickableWords.indexOf(mot) > 0 
-  && regexApostrophe.test(this.clickableWords[this.clickableWords.indexOf(mot)-1])) {
-        schtroumpfWord = "eschtroumpf";
-    }
+    schtroumpfWord += mot.slice(indexDerniereVoyelle);
     if (isCapitalized) {
         schtroumpfWord = schtroumpfWord[0].toUpperCase() + schtroumpfWord.slice(1);
     }
