@@ -28,8 +28,8 @@ export class AppListComponent {
       title: 'LexiQuête',
       description: 'Apprendre des stratégies pour deviner le sens d\'un mot inconnu.',
       routerLink: '/lexiquete',
-      buttonText: 'Lancer',
-      buttonClass: 'btn-primary'
+      buttonText: 'En cours de développement',
+      buttonClass: 'btn-warning'
     }
   ];
 
